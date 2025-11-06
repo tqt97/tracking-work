@@ -22,6 +22,21 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('attendances', AttendanceController::class);
-Route::resource('leave-requests', LeaveRequestController::class);
-Route::resource('reports', ReportController::class);
+Route::prefix('attendances')->group(function () {
+    Route::get('/', [AttendanceController::class, 'index'])->name('attendances.index');
+    Route::post('/', [AttendanceController::class, 'store'])->name('attendances.store');
+    Route::post('/check-in', [AttendanceController::class, 'checkIn'])->name('attendances.check-in');
+    Route::post('/check-out', [AttendanceController::class, 'checkOut'])->name('attendances.check-out');
+});
+
+Route::prefix('leave-requests')->group(function () {
+    Route::get('/', [LeaveRequestController::class, 'index'])->name('leave-requests.index');
+    Route::post('/', [LeaveRequestController::class, 'store'])->name('leave-requests.store');
+    Route::post('{id}/approve', [LeaveRequestController::class, 'approve'])->name('leave-requests.approve');
+    Route::post('{id}/reject', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
+});
+
+Route::prefix('reports')->group(function () {
+    Route::post('/generate', [ReportController::class, 'generate'])->name('reports.generate');
+    Route::get('/{month}', [ReportController::class, 'show'])->name('reports.show');
+});

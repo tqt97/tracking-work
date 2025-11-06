@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\AttendanceRepository;
-use App\Services\BaseService;
 use Carbon\Carbon;
 
 class AttendanceService extends BaseService

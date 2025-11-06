@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\LeaveRequest;
-use App\Repositories\BaseRepository;
 
 class LeaveRequestRepository extends BaseRepository
 {

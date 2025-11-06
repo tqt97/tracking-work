@@ -78,4 +78,18 @@ class AttendanceController extends Controller
 
         return redirect()->route('attendances.index');
     }
+
+    public function checkIn(Request $request)
+    {
+        $this->service->checkIn($request->user()->id);
+
+        return response()->json(['message' => 'Check-in successful']);
+    }
+
+    public function checkOut(Request $request)
+    {
+        $this->service->checkOut($request->user()->id);
+
+        return response()->json(['message' => 'Check-out successful']);
+    }
 }

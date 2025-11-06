@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\LeaveApproval;
 use App\Repositories\LeaveRequestRepository;
-use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 
 class LeaveRequestService extends BaseService
