@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Leave\Services;
+namespace App\Services;
 
 use App\Models\LeaveApproval;
-use App\Modules\Leave\Repositories\LeaveRequestRepository;
+use App\Repositories\LeaveRequestRepository;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 

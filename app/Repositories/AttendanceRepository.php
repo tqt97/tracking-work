@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Attendance\Repositories;
+namespace App\Repositories;
 
 use App\Models\Attendance;
 use App\Repositories\BaseRepository;

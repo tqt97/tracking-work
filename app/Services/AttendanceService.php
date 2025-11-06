@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Attendance\Services;
+namespace App\Services;
 
-use App\Modules\Attendance\Repositories\AttendanceRepository;
+use App\Repositories\AttendanceRepository;
 use App\Services\BaseService;
 use Carbon\Carbon;
 

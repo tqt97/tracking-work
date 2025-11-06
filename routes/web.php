@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,5 +22,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('attendance', AttendanceController::class);
-Route::resource('leave-request', LeaveRequestController::class);
+Route::resource('attendances', AttendanceController::class);
+Route::resource('leave-requests', LeaveRequestController::class);
+Route::resource('reports', ReportController::class);

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
-use App\Modules\Attendance\Services\AttendanceService;
+use App\Services\AttendanceService;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -40,7 +40,7 @@ class AttendanceController extends Controller
     {
         $this->service->create($request->all());
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendances.index');
     }
 
     /**
@@ -66,7 +66,7 @@ class AttendanceController extends Controller
     {
         $this->service->update($attendance->id, $request->all());
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendances.index');
     }
 
     /**
@@ -76,6 +76,6 @@ class AttendanceController extends Controller
     {
         $this->service->delete($attendance->id);
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendances.index');
     }
 }

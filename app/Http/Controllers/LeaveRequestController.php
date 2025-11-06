@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LeaveRequest;
-use App\Modules\Leave\Services\LeaveRequestService;
+use App\Services\LeaveRequestService;
 use Illuminate\Http\Request;
 
 class LeaveRequestController extends Controller
@@ -22,7 +22,7 @@ class LeaveRequestController extends Controller
     {
         $data = $this->service->getAll();
 
-        return view('leave.index', compact('data'));
+        return view('leave-request.index', compact('data'));
     }
 
     /**
@@ -40,7 +40,7 @@ class LeaveRequestController extends Controller
     {
         $this->service->create($request->all());
 
-        return redirect()->route('leave-request.index');
+        return redirect()->route('leave-requests.index');
     }
 
     /**
@@ -66,7 +66,7 @@ class LeaveRequestController extends Controller
     {
         $this->service->update($leaveRequest->id, $request->all());
 
-        return redirect()->route('leave-request.index');
+        return redirect()->route('leave-requests.index');
     }
 
     /**
@@ -76,7 +76,7 @@ class LeaveRequestController extends Controller
     {
         $this->service->delete($leaveRequest->id);
 
-        return redirect()->route('leave-request.index');
+        return redirect()->route('leave-requests.index');
     }
 
     public function approve($id, Request $request)
