@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LeaveApprovalController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
@@ -39,4 +40,21 @@ Route::prefix('leave-requests')->group(function () {
 Route::prefix('reports')->group(function () {
     Route::post('/generate', [ReportController::class, 'generate'])->name('reports.generate');
     Route::get('/{month}', [ReportController::class, 'show'])->name('reports.show');
+});
+
+Route::prefix('leave-approvals')->group(function () {
+    Route::get('/pending', [LeaveApprovalController::class, 'myPending'])
+        ->name('approvals.pending');
+
+    // ✅ Lấy danh sách tất cả người duyệt của 1 đơn cụ thể
+    Route::get('/leave/{leaveRequestId}', [LeaveApprovalController::class, 'approvalsByRequest'])
+        ->name('approvals.byLeaveRequest');
+
+    // ✅ Phê duyệt đơn nghỉ (approvalId = id trong bảng leave_approvals)
+    Route::post('/{id}/approve', [LeaveApprovalController::class, 'approve'])
+        ->name('approvals.approve');
+
+    // ✅ Từ chối đơn nghỉ
+    Route::post('/{id}/reject', [LeaveApprovalController::class, 'reject'])
+        ->name('approvals.reject');
 });
