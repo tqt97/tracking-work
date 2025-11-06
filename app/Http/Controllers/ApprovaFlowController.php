@@ -29,7 +29,6 @@ class ApprovaFlowController extends Controller
         return response()->json(['data' => $query->orderBy('level')->get()]);
     }
 
-
     /**
      * Show the form for creating a new resource.
      */

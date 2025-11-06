@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\DepartmentRepository;
-use App\Services\BaseService;
-use Exception;
 
 class DepartmentService extends BaseService
 {
@@ -22,6 +20,7 @@ class DepartmentService extends BaseService
     {
         $department = $this->repository->find($departmentId);
         $department->update(['manager_id' => $userId]);
+
         return $department;
     }
 }

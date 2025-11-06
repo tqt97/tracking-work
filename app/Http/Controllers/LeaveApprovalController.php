@@ -40,6 +40,9 @@ class LeaveApprovalController extends Controller
      */
     public function approve($id, Request $request)
     {
+        $approval = $this->service->find($id);
+        $this->authorize('approve', $approval);
+
         $approverId = $request->user()->id;
         $note = $request->input('note');
         $approval = $this->service->approve($id, $approverId, $note);

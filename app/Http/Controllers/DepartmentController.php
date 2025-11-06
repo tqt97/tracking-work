@@ -28,6 +28,7 @@ class DepartmentController extends Controller
         ]);
 
         $department = $this->service->create($data);
+
         return response()->json(['message' => 'Tạo phòng ban thành công', 'data' => $department]);
     }
 
@@ -39,12 +40,14 @@ class DepartmentController extends Controller
         ]);
 
         $department = $this->service->update($id, $data);
+
         return response()->json(['message' => 'Cập nhật phòng ban thành công', 'data' => $department]);
     }
 
     public function destroy($id)
     {
         $this->service->delete($id);
+
         return response()->json(['message' => 'Đã xóa phòng ban.']);
     }
 
@@ -52,6 +55,7 @@ class DepartmentController extends Controller
     {
         $data = $request->validate(['manager_id' => 'required|integer|exists:users,id']);
         $department = $this->service->assignManager($id, $data['manager_id']);
+
         return response()->json(['message' => 'Đã gán trưởng phòng thành công', 'data' => $department]);
     }
 }

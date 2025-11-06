@@ -32,5 +32,13 @@ class SendApprovalNotificationJob implements ShouldQueue
             "Xin chào {$approver->name},\nBạn có 1 đơn nghỉ phép mới cần duyệt từ {$leave->user->name}.",
             fn ($msg) => $msg->to($approver->email)->subject('Thông báo phê duyệt nghỉ phép')
         );
+
+        $hrEmails = ['hr@company.com'];
+        foreach ($hrEmails as $email) {
+            Mail::raw(
+                "Thông báo: có đơn nghỉ mới của {$leave->user->name}.",
+                fn ($msg) => $msg->to($email)->subject('[HR] Đơn nghỉ mới')
+            );
+        }
     }
 }

@@ -16,7 +16,7 @@ class Department extends Model
         'name',
         'code',
         'manager_id',
-        'description'
+        'description',
     ];
 
     public function manager(): BelongsTo
