@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\ApprovalFlowController;
+use App\Http\Controllers\Admin\ApprovalFlowPageController;
+use App\Http\Controllers\Admin\DepartmentPageController;
+use App\Http\Controllers\Admin\DepartmentReportPageController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DepartmentReportController;
@@ -82,4 +85,10 @@ Route::prefix('admin/departments')
 
 Route::prefix('admin/reports')->middleware('auth')->group(function () {
     Route::get('/departments/leave-summary', [DepartmentReportController::class, 'leaveSummary'])->name('admin.departments.leave-summary');
+});
+
+Route::prefix('admin')->middleware(['auth', 'can:manage,App\Models\ApprovalFlow'])->group(function () {
+    Route::get('/approval-flows', [ApprovalFlowPageController::class, 'index'])->name('admin.approval_flows');
+    Route::get('/reports/departments', [DepartmentReportPageController::class, 'index'])->name('admin.reports.departments');
+    Route::get('/departments', [DepartmentPageController::class, 'index'])->name('admin.departments');
 });

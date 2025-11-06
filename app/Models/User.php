@@ -69,6 +69,20 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class);
     }
 
+    public function hasPermission($permission)
+    {
+        // Nếu dùng bảng permissions, bạn có thể kiểm tra thực tế:
+        // return $this->permissions()->where('name', $permission)->exists();
+
+        // Tạm thời: giả định role có mảng quyền
+        $rolePermissions = [
+            'admin' => ['manage-flows', 'view-reports', 'assign-managers'],
+            'manager' => ['view-reports'],
+        ];
+
+        return in_array($permission, $rolePermissions[$this->role] ?? []);
+    }
+
     // public function notifications()
     // {
     //     return $this->hasMany(Notification::class);
