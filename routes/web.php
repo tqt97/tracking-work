@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ApprovalFlowController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveApprovalController;
 use App\Http\Controllers\LeaveRequestController;
@@ -57,4 +58,11 @@ Route::prefix('leave-approvals')->group(function () {
     // ✅ Từ chối đơn nghỉ
     Route::post('/{id}/reject', [LeaveApprovalController::class, 'reject'])
         ->name('approvals.reject');
+});
+
+Route::prefix('admin/approval-flows')->middleware('auth:sanctum')->group(function () {
+    Route::get('/', [ApprovalFlowController::class, 'index']);
+    Route::post('/', [ApprovalFlowController::class, 'store']);
+    Route::put('/{id}', [ApprovalFlowController::class, 'update']);
+    Route::delete('/{id}', [ApprovalFlowController::class, 'destroy']);
 });

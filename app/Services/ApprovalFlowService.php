@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\LeaveApproval;
 use App\Models\User;
 use App\Repositories\ApprovalFlowRepository;
 use Exception;
@@ -48,5 +49,9 @@ class ApprovalFlowService
         }
 
         DB::table('leave_approvals')->insert($approvals);
+
+        foreach ($approvals as $a) {
+            event(new \App\Events\LeaveApprovalCreated(LeaveApproval::find($a['id'] ?? null)));
+        }
     }
 }
