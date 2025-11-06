@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\ApprovalFlowController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DepartmentReportController;
 use App\Http\Controllers\LeaveApprovalController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
@@ -22,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::prefix('attendances')->group(function () {
     Route::get('/', [AttendanceController::class, 'index'])->name('attendances.index');
@@ -60,9 +62,24 @@ Route::prefix('leave-approvals')->group(function () {
         ->name('approvals.reject');
 });
 
-Route::prefix('admin/approval-flows')->middleware('auth:sanctum')->group(function () {
+Route::prefix('admin/approval-flows')->middleware('auth')->group(function () {
     Route::get('/', [ApprovalFlowController::class, 'index']);
     Route::post('/', [ApprovalFlowController::class, 'store']);
     Route::put('/{id}', [ApprovalFlowController::class, 'update']);
     Route::delete('/{id}', [ApprovalFlowController::class, 'destroy']);
+});
+
+Route::prefix('admin/departments')
+    ->as('admin.departments')
+    ->middleware('auth')
+    ->group(function () {
+        Route::get('/', [DepartmentController::class, 'index'])->name('index');
+        Route::post('/', [DepartmentController::class, 'store'])->name('store');
+        Route::put('/{id}', [DepartmentController::class, 'update'])->name('update');
+        Route::delete('/{id}', [DepartmentController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/assign-manager', [DepartmentController::class, 'assignManager'])->name('assign-manager');
+    });
+
+Route::prefix('admin/reports')->middleware('auth')->group(function () {
+    Route::get('/departments/leave-summary', [DepartmentReportController::class, 'leaveSummary'])->name('admin.departments.leave-summary');
 });

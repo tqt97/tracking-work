@@ -23,7 +23,8 @@ class ApprovalFlowService
     public function generateForLeave(int $leaveRequestId, User $requester)
     {
         $userRole = $requester->roles()->first()?->slug ?? 'staff';
-        $flows = $this->repository->getFlow('leave', $userRole);
+        $flows = $this->repository->getFlow('leave', $userRole)
+            ->where('department_id', $requester->department_id);
 
         if ($flows->isEmpty()) {
             throw new Exception("Không tìm thấy flow phê duyệt cho vai trò: {$userRole}");
