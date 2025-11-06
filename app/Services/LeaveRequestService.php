@@ -19,12 +19,14 @@ class LeaveRequestService extends BaseService
             $leave = $this->repository->create($data);
 
             // Gán người duyệt mặc định (có thể sau này dùng rule động)
-            LeaveApproval::create([
-                'leave_request_id' => $leave->id,
-                'approver_id' => 1, // Admin mặc định
-                'level' => 1,
-                'status' => 'pending',
-            ]);
+            // LeaveApproval::create([
+            //     'leave_request_id' => $leave->id,
+            //     'approver_id' => 1, // Admin mặc định
+            //     'level' => 1,
+            //     'status' => 'pending',
+            // ]);
+            app(\App\Services\ApprovalFlowService::class)
+                ->generateForLeave($leave->id, $leave->user);
 
             return $leave;
         });
