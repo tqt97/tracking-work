@@ -11,6 +11,9 @@ use App\Http\Controllers\LeaveApprovalController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RolePermissionPageController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -88,7 +91,37 @@ Route::prefix('admin/reports')->middleware('auth')->group(function () {
 });
 
 Route::prefix('admin')->middleware(['auth', 'can:manage,App\Models\ApprovalFlow'])->group(function () {
-    Route::get('/approval-flows', [ApprovalFlowPageController::class, 'index'])->name('admin.approval_flows');
-    Route::get('/reports/departments', [DepartmentReportPageController::class, 'index'])->name('admin.reports.departments');
-    Route::get('/departments', [DepartmentPageController::class, 'index'])->name('admin.departments');
+    Route::get('/approval-flows', [ApprovalFlowPageController::class, 'index'])
+        ->name('admin.approval_flows')
+        ->middleware('permission:manage-flows');
+    Route::get('/reports/departments', [DepartmentReportPageController::class, 'index'])
+        ->name('admin.reports.departments')
+        ->middleware('permission:view-reports');
+    Route::get('/departments', [DepartmentPageController::class, 'index'])
+        ->name('admin.departments')
+        ->middleware('permission:assign-managers');
+});
+
+Route::prefix('admin')->middleware(['auth', 'permission:manage-flows'])->group(function () {
+    Route::get('/roles/permissions', [RolePermissionPageController::class, 'index'])
+        ->name('admin.roles.permissions');
+});
+
+Route::prefix('admin')->middleware(['auth', 'permission:manage-flows'])->group(function () {
+    Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles.index');
+    Route::post('/roles', [RoleController::class, 'store'])->name('admin.roles.store');
+    Route::put('/roles/{role}', [RoleController::class, 'update'])->name('admin.roles.update');
+    Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('admin.roles.destroy');
+});
+
+// Route::prefix('admin')->middleware(['auth', 'permission:manage-flows'])->group(function () {
+//     Route::get('/users/roles', [UserRoleController::class, 'index'])->name('admin.users.roles');
+//     Route::post('/users/{user}/roles', [UserRoleController::class, 'syncRoles'])->name('admin.users.roles.sync');
+// });
+Route::prefix('admin')->middleware(['auth', 'permission:manage-flows'])->group(function () {
+    Route::get('/users/roles', [UserRoleController::class, 'index'])->name('admin.users.roles');
+    Route::post('/users/{user}/roles', [UserRoleController::class, 'syncRoles'])->name('admin.users.roles.sync');
+    Route::post('/users/roles/bulk-assign', [UserRoleController::class, 'bulkAssign'])->name('admin.users.roles.bulk');
+    Route::get('/users/roles/export', [UserRoleController::class, 'exportCsv'])->name('admin.users.roles.export');
+    Route::post('/users/roles/import', [UserRoleController::class, 'importCsv'])->name('admin.users.roles.import');
 });
